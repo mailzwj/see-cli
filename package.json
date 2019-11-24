@@ -1,0 +1,21 @@
+{
+  "name": "see-cli",
+  "version": "1.0.0",
+  "description": "React组件脚手架",
+  "main": "index.js",
+  "bin": {
+    "see": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mr.Zheng",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "inquirer": "^7.0.0",
+    "ora": "^4.0.3",
+    "shelljs": "^0.8.3",
+    "yargs": "^15.0.2"
+  }
+}
