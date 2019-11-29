@@ -24,8 +24,6 @@ const keys = {
     name: 'Enter plugin name'
 };
 
-const protocols = ['https:', 'git:'];
-
 const rDir = /^[a-z0-9_-]/i;
 
 const loader = ora('正在克隆...\n');
@@ -33,7 +31,8 @@ let timer;
 
 const upgradePkg = project => {
     const pkgJson = `${project}/package.json`;
-    const pkgCfg = require(pkgJson);
+    let pkgCfg = fs.readFileSync(pkgJson).toString('utf8');
+    pkgCfg = JSON.parse(pkgCfg);
     const newJson = {
         ...pkgCfg,
         name: project.toLowerCase(),
@@ -41,12 +40,13 @@ const upgradePkg = project => {
         repository: '',
         description: ''
     };
-    fs.writeFileSync(pkgJson, JSON.toString(newJson, null, 2), 'utf8');
+    const content = JSON.stringify(newJson, null, 2);
+    // console.log(pkgJson, '\n', content);
+    fs.writeFileSync(pkgJson, content, 'utf8');
 };
 
 const createPlugin = (project, base) => {
-    const idx = Math.floor(protocols.length * Math.random());
-    const gitAddr = `${protocols[idx]}//github.com/mailzwj/${base}.git`;
+    const gitAddr = `https://gitee.com/mailzwj/${base}.git`;
     // const gitAddr = `git@github.com:mailzwj/${base}.git`;
     const dir = path.join('./', project);
     if (!rDir.test(project)) {
