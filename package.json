@@ -1,5 +1,5 @@
 {
-  "name": "see-cli",
+  "name": "@mailzwj/see-cli",
   "version": "1.0.0",
   "description": "React组件脚手架",
   "main": "index.js",

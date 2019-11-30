@@ -3,7 +3,7 @@ ReactJS组件开发脚手架
 
 ## 安装
 ```js
-npm install -g see-cli
+npm install -g @mailzwj/see-cli
 ```
 
 ## 用法
