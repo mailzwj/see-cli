@@ -20,10 +20,8 @@ const gits = {
     ts: 'base-library-ts'
 };
 
-const sources = ['gitee', 'github'];
-
 const keys = {
-    name: 'Enter plugin name'
+    name: '请输入插件名称'
 };
 
 const rDir = /^[a-z0-9_-]/i;
@@ -69,13 +67,13 @@ const createPlugin = (project, argv) => {
         if (code) {
             shell.rm('-rf', dir);
             error(stderr);
-            loader.fail('Fail.');
+            loader.fail('失败！');
             shell.exit(1);
         }
         shell.rm('-rf', `${project}/.git`);
         upgradePkg(project);
-        loader.succeed('Done.');
-        success('Success!');
+        loader.succeed('完成。');
+        success('插件初始化成功!');
     });
     timer = setTimeout(() => {
         loader.start();
@@ -128,7 +126,7 @@ yargs.command({
                 error(stderr);
                 shell.exit(code);
             }
-            success('Started');
+            success('服务启动成功！');
         });
     }
 })
