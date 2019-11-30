@@ -20,6 +20,8 @@ const gits = {
     ts: 'base-library-ts'
 };
 
+const sources = ['gitee', 'github'];
+
 const keys = {
     name: 'Enter plugin name'
 };
@@ -45,9 +47,10 @@ const upgradePkg = project => {
     fs.writeFileSync(pkgJson, content, 'utf8');
 };
 
-const createPlugin = (project, base) => {
-    const gitAddr = `https://gitee.com/mailzwj/${base}.git`;
-    // const gitAddr = `git@github.com:mailzwj/${base}.git`;
+const createPlugin = (project, argv) => {
+    const { t, s } = argv;
+    const base = gits[t];
+    const gitAddr = `https://${s}.com/mailzwj/${base}.git`;
     const dir = path.join('./', project);
     if (!rDir.test(project)) {
         error('插件名称只能包含字母、数字、连字符(-)和下划线(_)');
@@ -80,7 +83,7 @@ const createPlugin = (project, base) => {
 };
 
 if (!shell.which('git')) {
-    error('Error: 部分命令依赖git');
+    error('部分命令依赖git');
     print('Mac系统可通过【brew install git】安装');
     shell.exit(1);
 }
@@ -92,24 +95,59 @@ yargs.command({
     aliases: 'i',
     desc: '初始化应用',
     handler: argv => {
-        const { t, project = '' } = argv;
+        const { project = '' } = argv;
         if (project) {
-            createPlugin(project, gits[t]);
+            createPlugin(project, argv);
         } else {
             inquirer.prompt({
                 type: 'input',
                 name: keys['name']
             }).then(aws => {
-                createPlugin(aws[keys['name']], gits[t]);
+                createPlugin(aws[keys['name']], argv);
             });
         }
     }
+})
+.command({
+    command: 'serve [path]',
+    aliases: 's',
+    desc: '启动本地静态服务器',
+    handler: argv => {
+        const { path = './', port } = argv;
+        if (!shell.which('serve')) {
+            error('运行该命令需先安装serve依赖');
+            print('可通过【npm install -g serve】安装');
+            shell.exit(1);
+        }
+        if (!fs.existsSync(path)) {
+            error(`目录${path}不存在`);
+            shell.exit(1);
+        }
+        shell.exec(`serve ${path} -l ${port}`, (code, stdout, stderr) => {
+            if (code !== 0) {
+                error(stderr);
+                shell.exit(code);
+            }
+            success('Started');
+        });
+    }
+})
+.option('port', {
+    alias: 'p',
+    default: 9000,
+    describe: '端口'
 })
 .option('type', {
     alias: 't',
     default: 'js',
     choices: ['js', 'ts'],
     describe: '设置初始化类型'
+})
+.option('source', {
+    alias: 's',
+    default: 'gitee',
+    choices: ['gitee', 'github'],
+    describe: '资源托管服务'
 })
 .help();
 
