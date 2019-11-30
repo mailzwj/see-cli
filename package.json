@@ -1,6 +1,6 @@
 {
   "name": "@mailzwj/see-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React组件脚手架",
   "main": "index.js",
   "bin": {
@@ -9,7 +9,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Mr.Zheng",
+  "author": "Mr.Zheng <mailzwj@126.com> (http://seejs.me)",
+  "keywords": [
+    "cli",
+    "react",
+    "脚手架",
+    "Typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mailzwj/see-cli.git"
+  },
   "license": "ISC",
   "dependencies": {
     "chalk": "^3.0.0",
